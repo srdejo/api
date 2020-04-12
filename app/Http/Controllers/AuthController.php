@@ -12,16 +12,24 @@ class AuthController extends Controller
     public function registrar(Request $request)
     {
         $request->validate([
-            'celular'     => 'required|int|unique:users',
+            'celular'     => 'required|int',
             'nombre'    => 'required|string',
             'direccion' => 'required|string',
         ]);
-        $user = new User([
+
+        $user = User::firstOrNew(['celular' => $request->celular]);
+        /*  $user = new User([
             'celular'     => $request->celular,
             'nombre'    => $request->nombre,
             'direccion' => $request->direccion,
             'kdx' => $request->kdx,
         ]);
+*/
+        $user->celular = $request->celular;
+        $user->nombre = $request->nombre;
+        $user->direccion = $request->direccion;
+        $user->kdx = $request->kdx;
+
         $user->save();
         return response()->json([
             'message' => 'Cliente registrado correctamente!'
@@ -35,7 +43,7 @@ class AuthController extends Controller
         ]);
 
         $user_search = User::where('celular', $request->celular)->first();
-        if(!isset($user_search)){
+        if (!isset($user_search)) {
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
