@@ -6,6 +6,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -14,26 +15,41 @@ class AuthController extends Controller
         $request->validate([
             'celular'     => 'required|int',
             'nombre'    => 'required|string',
-            'direccion' => 'required|string',
+            'acepta_sms' => 'required|boolean',
         ]);
+        try {
+            DB::beginTransaction();
+            $user = User::firstOrNew(['celular' => $request->celular]);
 
-        $user = User::firstOrNew(['celular' => $request->celular]);
-        /*  $user = new User([
-            'celular'     => $request->celular,
-            'nombre'    => $request->nombre,
-            'direccion' => $request->direccion,
-            'kdx' => $request->kdx,
-        ]);
-*/
-        $user->celular = $request->celular;
-        $user->nombre = $request->nombre;
-        $user->direccion = $request->direccion;
-        $user->kdx = $request->kdx;
+            $user->celular = $request->celular;
+            $user->nombre = $request->nombre;
+            $user->acepta_sms = $request->acepta_sms;
 
-        $user->save();
-        return response()->json([
-            'message' => 'Cliente registrado correctamente!'
-        ], 201);
+            if (!$request->acepta_sms) {
+                return response()->json([
+                    'message' => 'Debe aceptar el envio de sms!'
+                ], 201);
+            }
+            $user->save();
+
+            $codigo = (new CodigoController)->GenerarCodigo($request->celular);
+            if ($codigo != 0) {
+                DB::commit();
+                return response()->json([
+                    'message' => 'Codigo generado exitosamente!'
+                ], 201);
+            }else{
+                DB::rollback();
+                return response()->json([
+                    'message' => 'Error al generar el código!'
+                ], 500);
+            }
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return response()->json([
+                'message' => 'Error al registrar!'
+            ], 500);
+        }
     }
 
     public function login(Request $request)
