@@ -36,14 +36,14 @@ class CodigoController extends Controller
                 $fecha_hora_actual = Carbon::now();
                 $codigo->fecha_hora_utilizacion = $fecha_hora_actual->toDateTimeString();
                 $codigo->save();
-
                 $user->codigo_id = $codigo->id;
                 $user->save();
 
                 DB::commit();
-                return response()->json([
-                    'message' => 'Código validado correctamente'
-                ], 500);
+
+                $respuesta = (new AuthController)->login($request);
+
+                return $respuesta;
             } else {
                 DB::rollback();
                 return response()->json([

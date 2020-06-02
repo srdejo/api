@@ -28,6 +28,7 @@ class AddCodigosUserForeignKey extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropForeign(['codigo_id']);
+            $table->dropColumn('codigo_id');
         });
     }
 }
