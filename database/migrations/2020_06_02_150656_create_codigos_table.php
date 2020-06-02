@@ -17,6 +17,7 @@ class CreateCodigosTable extends Migration
             $table->id();
             $table->string('codigo')->unique();
             $table->string('celular');
+            $table->dateTime('fecha_hora_utilizacion')->nullable();
             $table->timestamps();
         });
     }
