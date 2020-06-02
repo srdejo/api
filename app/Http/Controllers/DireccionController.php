@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Direccion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,8 @@ class DireccionController extends Controller
         ]);
         try {
             DB::beginTransaction();
-            $direccion = Auth::user()->direccion;
+            $user = Auth::user();
+            $direccion = Direccion::firstOrCreate(['user_id' => $user->id]);
             $direccion->nomenclatura = $request->nomenclatura;
             $direccion->numero = $request->numero;
             $direccion->placa = $request->placa;
