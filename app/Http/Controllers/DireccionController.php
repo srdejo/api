@@ -21,7 +21,7 @@ class DireccionController extends Controller
         try {
             DB::beginTransaction();
             $user = Auth::user();
-            $direccion = Direccion::firstOrCreate(['user_id' => $user->id]);
+            $direccion = Direccion::firstOrNew(['user_id' => $user->id]);
             $direccion->nomenclatura = $request->nomenclatura;
             $direccion->numero = $request->numero;
             $direccion->placa = $request->placa;
