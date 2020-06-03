@@ -58,7 +58,7 @@ class AuthController extends Controller
             'celular'       => 'required|int',
         ]);
 
-        $user_search = User::where('celular', $request->celular)->first();
+        $user_search = User::where('celular', $request->celular)->whereNotNull('codigo_id')->first();
         if (!isset($user_search)) {
             return response()->json([
                 'message' => 'Unauthorized'
