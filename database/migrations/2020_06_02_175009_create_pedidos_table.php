@@ -15,6 +15,12 @@ class CreatePedidosTable extends Migration
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
+            
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            
+            $table->unsignedBigInteger('negocio_id')->nullable();
+            $table->foreign('negocio_id')->references('id')->on('negocios');
             $table->timestamps();
         });
     }
