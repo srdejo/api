@@ -58,4 +58,32 @@ class CodigoController extends Controller
             ], 500);
         }
     }
+
+    public function EnviarCodigo(Request $request)
+    {
+        $request->validate([
+            'celular'       => 'required|int',
+        ]);
+
+        $user_search = User::where('celular', $request->celular)->whereNotNull('codigo_id')->first();
+        if (!isset($user_search)) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
+        }else{
+            $codigo = $this->GenerarCodigo($request->celular);
+            
+            if ($codigo != 0) {
+                DB::commit();
+                return response()->json([
+                    'message' => 'Codigo generado exitosamente!'
+                ], 201);
+            }else{
+                DB::rollback();
+                return response()->json([
+                    'message' => 'Error al generar el código!'
+                ], 500);
+            }
+        }
+    }
 }
