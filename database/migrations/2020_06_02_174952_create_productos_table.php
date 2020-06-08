@@ -18,14 +18,14 @@ class CreateProductosTable extends Migration
             $table->string('nombre');
             $table->integer('precio');
             $table->string('imagen');
-            $table->integer('precio_oferta');
-            $table->date('fecha_inicio_oferta');
-            $table->date('fecha_fin_oferta');
+            $table->integer('precio_oferta')->nullable();
+            $table->date('fecha_inicio_oferta')->nullable();
+            $table->date('fecha_fin_oferta')->nullable();
             
-            $table->unsignedBigInteger('negocio_id')->nullable();
+            $table->unsignedBigInteger('negocio_id');
             $table->foreign('negocio_id')->references('id')->on('negocios');
             
-            $table->unsignedBigInteger('categoria_id')->nullable();
+            $table->unsignedBigInteger('categoria_id');
             $table->foreign('categoria_id')->references('id')->on('categorias');
             $table->timestamps();
         });
