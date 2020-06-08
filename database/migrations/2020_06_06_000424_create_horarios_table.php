@@ -15,6 +15,12 @@ class CreateHorariosTable extends Migration
     {
         Schema::create('horarios', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('negocio_id')->nullable();
+            $table->foreign('negocio_id')->references('id')->on('negocios');
+            $table->integer('dia_semana');
+            $table->time('hora_apertura');
+            $table->time('hora_cierre');
+            $table->enum('estado', ['Activo', 'Inactivo']);
             
             $table->timestamps();
         });
