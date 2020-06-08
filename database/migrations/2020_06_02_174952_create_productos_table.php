@@ -17,6 +17,7 @@ class CreateProductosTable extends Migration
             $table->id();
             $table->string('nombre');
             $table->integer('precio');
+            $table->string('imagen');
             $table->integer('precio_oferta');
             $table->date('fecha_inicio_oferta');
             $table->date('fecha_fin_oferta');
