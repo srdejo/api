@@ -17,6 +17,10 @@ class ProductoController extends Controller
 
     public function getByCategory(Request $request)
     {
+        $request->validate([
+            'categoria'     => 'required|int',
+        ]);
+
         $categoria = Categoria::find($request->categoria);
 
         if (isset($categoria)) {
