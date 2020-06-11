@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+Route::get('validar_token', 'AuthController@user')->middleware('auth:api');
+
 Route::post('login', 'CodigoController@EnviarCodigo');
 Route::post('pre_registro', 'AuthController@registrar');
 Route::post('validar_codigo', 'CodigoController@ValidarCodigo');

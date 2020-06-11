@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Direccion;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -87,9 +88,13 @@ class AuthController extends Controller
         'Successfully logged out']);
     }
 
-    public function user(Request $request)
+    public function user()
     {
-        return response()->json($request->user());
+        $user = Auth::user();
+        return response()->json([
+            'user' => $user,
+            'direccion'    => $user->direccion,
+        ]);
     }
 
     public function users()
