@@ -37,7 +37,6 @@ class AuthController extends Controller
             $codigo = (new CodigoController)->GenerarCodigo($request->celular);
             if ($codigo != 0) {
                 DB::commit();
-                $this->sendWhatsappNotification($codigo, $request->celular);
                 return response()->json([
                     'message' => 'Codigo generado exitosamente!'
                 ], 201);
@@ -103,16 +102,5 @@ class AuthController extends Controller
     public function users()
     {
         return response()->json(User::paginate(15));
-    }
-
-    private function sendWhatsappNotification(string $otp, string $recipient)
-    {
-        $twilio_whatsapp_number = config('services.twilio.whatsapp_from');
-        $account_sid = config('services.twilio.sid');
-        $auth_token = config('services.twilio.token');
-
-        $client = new \Twilio\Rest\Client($account_sid, $auth_token);
-        $message = "Su Domi código es $otp";
-        return $client->messages->create("whatsapp:+57$recipient", array('from' => "whatsapp:$twilio_whatsapp_number", 'body' => $message));
     }
 }

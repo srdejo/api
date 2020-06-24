@@ -19,6 +19,9 @@ class CodigoController extends Controller
             $codigo->celular = $celular;
             $codigo->save();
 
+            $res = $this->sendWhatsappNotification($codigo->codigo, $celular);
+            Log::info('respuesta: '.json_encode($res));
+
             return $codigo->id;
         } catch (\Throwable $th) {
             return 0;
@@ -85,5 +88,16 @@ class CodigoController extends Controller
                 ], 500);
             }
         }
+    }
+    
+    private function sendWhatsappNotification(string $otp, string $recipient)
+    {
+        $twilio_whatsapp_number = config('services.twilio.whatsapp_from');
+        $account_sid = config('services.twilio.sid');
+        $auth_token = config('services.twilio.token');
+
+        $client = new \Twilio\Rest\Client($account_sid, $auth_token);
+        $message = "Su Domi código es $otp";
+        return $client->messages->create("whatsapp:+57$recipient", array('from' => "whatsapp:$twilio_whatsapp_number", 'body' => $message));
     }
 }
