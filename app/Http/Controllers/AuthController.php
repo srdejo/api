@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Twilio\Rest\Client;
 
 class AuthController extends Controller
 {
@@ -112,8 +111,8 @@ class AuthController extends Controller
         $account_sid = config('services.twilio.sid');
         $auth_token = config('services.twilio.token');
 
-        $client = new Client($account_sid, $auth_token);
-        $message = "TSu Domi código es $otp";
+        $client = new \Twilio\Rest\Client($account_sid, $auth_token);
+        $message = "Su Domi código es $otp";
         return $client->messages->create("whatsapp:+57$recipient", array('from' => "whatsapp:$twilio_whatsapp_number", 'body' => $message));
     }
 }
