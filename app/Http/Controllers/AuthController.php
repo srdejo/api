@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Twilio\Rest\Client;
 
 class AuthController extends Controller
 {
@@ -36,6 +38,7 @@ class AuthController extends Controller
             $codigo = (new CodigoController)->GenerarCodigo($request->celular);
             if ($codigo != 0) {
                 DB::commit();
+                $this->sendWhatsappNotification($codigo, $request->celular);
                 return response()->json([
                     'message' => 'Codigo generado exitosamente!'
                 ], 201);
@@ -46,9 +49,10 @@ class AuthController extends Controller
                 ], 500);
             }
         } catch (\Throwable $th) {
+            Log::error($th);
             DB::rollback();
             return response()->json([
-                'message' => 'Error al registrar!'
+                'message' => 'Error'
             ], 500);
         }
     }
@@ -100,5 +104,16 @@ class AuthController extends Controller
     public function users()
     {
         return response()->json(User::paginate(15));
+    }
+
+    private function sendWhatsappNotification(string $otp, string $recipient)
+    {
+        $twilio_whatsapp_number = config('services.twilio.whatsapp_from');
+        $account_sid = config('services.twilio.sid');
+        $auth_token = config('services.twilio.token');
+
+        $client = new Client($account_sid, $auth_token);
+        $message = "TSu Domi código es $otp";
+        return $client->messages->create("whatsapp:+57$recipient", array('from' => "whatsapp:$twilio_whatsapp_number", 'body' => $message));
     }
 }
