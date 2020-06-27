@@ -97,7 +97,7 @@ class CodigoController extends Controller
         $auth_token = config('services.twilio.token');
 
         $client = new \Twilio\Rest\Client($account_sid, $auth_token);
-        $message = "Su Domi código es $otp";
+        $message = "Your Domi code is $otp";
         return $client->messages->create("whatsapp:+57$recipient", array('from' => "whatsapp:$twilio_whatsapp_number", 'body' => $message));
     }
 }
