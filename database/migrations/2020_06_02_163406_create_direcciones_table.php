@@ -19,6 +19,7 @@ class CreateDireccionesTable extends Migration
             $table->string('numero')->nullable();
             $table->string('placa');
             $table->string('barrio')->nullable();
+            $table->string('geolocalizacion')->nullable();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
