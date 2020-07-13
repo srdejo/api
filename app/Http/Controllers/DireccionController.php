@@ -17,7 +17,7 @@ class DireccionController extends Controller
             'nomenclatura'     => 'required|string',
             'numero'    => 'required|string',
             'placa' => 'required|string',
-            'geolocalizacion' => 'required|string',
+            'geolocation' => 'required|boolean',
         ]);
         try {
             DB::beginTransaction();
@@ -27,7 +27,8 @@ class DireccionController extends Controller
             $direccion->numero = $request->numero;
             $direccion->placa = $request->placa;
             $direccion->barrio = $request->barrio;
-            $direccion->geolocalizacion = $request->geolocalizacion;
+            $direccion->geolocation = $request->geolocation;
+            $direccion->coordenadas = $request->coordenadas;
             $direccion->save();
             DB::commit();
             return response()->json([
