@@ -75,7 +75,6 @@ class CodigoController extends Controller
             ], 401);
         }else{
             $codigo = $this->GenerarCodigo($request->celular);
-            
             if ($codigo != 0) {
                 DB::commit();
                 return response()->json([
