@@ -19,6 +19,8 @@ class CreateAdminsTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->unsignedBigInteger('negocio_id');
+            $table->foreign('negocio_id')->references('id')->on('negocios');
             $table->rememberToken();
             $table->timestamps();
         });

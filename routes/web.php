@@ -15,3 +15,7 @@ Route::post('/login', 'Auth\LoginController@adminLogin');
 Route::post('/register', 'Auth\RegisterController@createAdmin');
 
 Route::get('/negocio', 'NegocioController@index')->name('negocio');
+Route::get('/producto', 'ProductoController@index')->name('producto');
+
+Route::get('/productos', 'ProductoController@json');
+    
