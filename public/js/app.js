@@ -2091,6 +2091,80 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -2129,8 +2203,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       show: true
     }, "form", {
       nombre: "",
-      imagen: "",
-      precio: "",
+      imagen: null,
+      precio: null,
       precio_oferta: "",
       fecha_inicio_oferta: "",
       fecha_fin_oferta: ""
@@ -2173,6 +2247,43 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       if (items.length > 0) {
         this.ClienteSeleccionado = items[0].id;
       }
+    },
+    checkFormValidity: function checkFormValidity() {
+      var valid = this.$refs.form.checkValidity();
+      return valid;
+    },
+    resetModal: function resetModal() {
+      this.form = {
+        nombre: "",
+        imagen: "",
+        precio: "",
+        precio_oferta: "",
+        fecha_inicio_oferta: "",
+        fecha_fin_oferta: ""
+      };
+    },
+    handleOk: function handleOk(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault(); // Trigger submit handler
+
+      this.handleSubmit();
+    },
+    onSubmit: function onSubmit(evt) {
+      evt.preventDefault();
+      console.log(JSON.stringify(this.form));
+    },
+    handleSubmit: function handleSubmit() {
+      var _this2 = this;
+
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return;
+      } // Hide the modal manually
+
+
+      this.$nextTick(function () {
+        _this2.$bvModal.hide("modal-producto");
+      });
     }
   }
 });
@@ -80597,6 +80708,270 @@ var render = function() {
           [
             _c(
               "b-row",
+              { staticClass: "justify-content-center" },
+              [
+                _vm.show
+                  ? _c(
+                      "b-form",
+                      { on: { submit: _vm.onSubmit, reset: _vm.resetModal } },
+                      [
+                        _c(
+                          "b-form-group",
+                          {
+                            attrs: {
+                              id: "input-group-2",
+                              label: "Nombre:",
+                              "label-for": "input-2"
+                            }
+                          },
+                          [
+                            _c("b-form-input", {
+                              attrs: {
+                                id: "input-2",
+                                required: "",
+                                placeholder: "Ej: Domi Burguer",
+                                "invalid-feedback": "Nombre es obligatorio",
+                                type: "text"
+                              },
+                              model: {
+                                value: _vm.form.nombre,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "nombre", $$v)
+                                },
+                                expression: "form.nombre"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-form-group",
+                          {
+                            attrs: {
+                              id: "input-group-precio",
+                              label: "Precio:",
+                              "label-for": "input-precio"
+                            }
+                          },
+                          [
+                            _c("b-form-input", {
+                              attrs: {
+                                id: "input-precio",
+                                required: "",
+                                placeholder: "Ej: $3.000",
+                                type: "number"
+                              },
+                              model: {
+                                value: _vm.form.precio,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "precio", $$v)
+                                },
+                                expression: "form.precio"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-form-group",
+                          {
+                            attrs: {
+                              id: "input-group-precio-oferta",
+                              label: "Precio Oferta:",
+                              "label-for": "input-precio-oferta"
+                            }
+                          },
+                          [
+                            _c("b-form-input", {
+                              attrs: {
+                                id: "input-precio-oferta",
+                                required: "",
+                                placeholder: "Ej: $2.000",
+                                type: "number"
+                              },
+                              model: {
+                                value: _vm.form.precio_oferta,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "precio_oferta", $$v)
+                                },
+                                expression: "form.precio_oferta"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("label", [_vm._v("Inicio Oferta:")]),
+                        _vm._v(" "),
+                        _c(
+                          "b-input-group",
+                          {
+                            staticClass: "mb-3",
+                            attrs: { "label-for": "input-fecha-inicio-oferta" }
+                          },
+                          [
+                            _c("b-form-input", {
+                              attrs: {
+                                id: "input-fecha-inicio-oferta",
+                                type: "text",
+                                placeholder: "YYYY-MM-DD",
+                                autocomplete: "off",
+                                readonly: ""
+                              },
+                              model: {
+                                value: _vm.form.fecha_inicio_oferta,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "fecha_inicio_oferta", $$v)
+                                },
+                                expression: "form.fecha_inicio_oferta"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "b-input-group-append",
+                              [
+                                _c("b-form-datepicker", {
+                                  attrs: {
+                                    "button-only": "",
+                                    right: "",
+                                    locale: "en-US",
+                                    "aria-controls": "input-fecha-inicio-oferta"
+                                  },
+                                  model: {
+                                    value: _vm.form.fecha_inicio_oferta,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.form,
+                                        "fecha_inicio_oferta",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "form.fecha_inicio_oferta"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c("label", [_vm._v("Fin Oferta:")]),
+                        _vm._v(" "),
+                        _c(
+                          "b-input-group",
+                          {
+                            staticClass: "mb-3",
+                            attrs: { "label-for": "input-fecha-fin-oferta" }
+                          },
+                          [
+                            _c("b-form-input", {
+                              attrs: {
+                                id: "input-fecha-fin-oferta",
+                                type: "text",
+                                placeholder: "YYYY-MM-DD",
+                                autocomplete: "off",
+                                readonly: ""
+                              },
+                              model: {
+                                value: _vm.form.fecha_fin_oferta,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "fecha_fin_oferta", $$v)
+                                },
+                                expression: "form.fecha_fin_oferta"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "b-input-group-append",
+                              [
+                                _c("b-form-datepicker", {
+                                  attrs: {
+                                    "button-only": "",
+                                    right: "",
+                                    locale: "en-US",
+                                    "aria-controls": "input-fecha-fin-oferta"
+                                  },
+                                  model: {
+                                    value: _vm.form.fecha_fin_oferta,
+                                    callback: function($$v) {
+                                      _vm.$set(
+                                        _vm.form,
+                                        "fecha_fin_oferta",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "form.fecha_fin_oferta"
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-form-group",
+                          {
+                            attrs: {
+                              id: "input-group-1",
+                              label: "Imagen del producto:",
+                              "label-for": "imagen",
+                              description:
+                                "Las dimensiones recomendadas son ## x ##."
+                            }
+                          },
+                          [
+                            _c("b-form-file", {
+                              attrs: {
+                                id: "imagen",
+                                placeholder:
+                                  "Escoja una imagen o arrastrela aquí...",
+                                "drop-placeholder": "Suelte su imagen aquí..."
+                              },
+                              model: {
+                                value: _vm.form.imagen,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.form, "imagen", $$v)
+                                },
+                                expression: "form.imagen"
+                              }
+                            })
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-button",
+                          {
+                            attrs: {
+                              type: "reset",
+                              variant: "outline-secondary"
+                            }
+                          },
+                          [_vm._v("Reset")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-button",
+                          { attrs: { type: "submit", variant: "secondary" } },
+                          [_vm._v("Submit")]
+                        )
+                      ],
+                      1
+                    )
+                  : _vm._e()
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c(
+              "b-row",
               [
                 _c(
                   "b-col",
@@ -80672,8 +81047,8 @@ var render = function() {
                         directives: [
                           {
                             name: "b-modal",
-                            rawName: "v-b-modal.modal-1",
-                            modifiers: { "modal-1": true }
+                            rawName: "v-b-modal.modal-producto",
+                            modifiers: { "modal-producto": true }
                           }
                         ],
                         staticClass: "align-middle float-right",
@@ -80807,142 +81182,10 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c(
-        "b-modal",
-        {
-          attrs: { id: "modal-1", title: "Agregar Producto" },
-          scopedSlots: _vm._u([
-            {
-              key: "modal-footer",
-              fn: function(ref) {
-                var ok = ref.ok
-                var cancel = ref.cancel
-                return [
-                  _c(
-                    "b-button",
-                    {
-                      attrs: { size: "sm", variant: "secondary" },
-                      on: {
-                        click: function($event) {
-                          return ok()
-                        }
-                      }
-                    },
-                    [_vm._v("Guardar")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "b-button",
-                    {
-                      attrs: { size: "sm", variant: "outline-secondary" },
-                      on: {
-                        click: function($event) {
-                          return cancel()
-                        }
-                      }
-                    },
-                    [_vm._v("Cancelar")]
-                  )
-                ]
-              }
-            }
-          ])
-        },
-        [
-          _c(
-            "b-form-group",
-            {
-              attrs: {
-                id: "input-group-2",
-                label: "Nombre:",
-                "label-for": "input-2"
-              }
-            },
-            [
-              _c("b-form-input", {
-                attrs: {
-                  id: "input-2",
-                  required: "",
-                  placeholder: "Ej: Domi Burguer"
-                },
-                model: {
-                  value: _vm.form.nombre,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "nombre", $$v)
-                  },
-                  expression: "form.nombre"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-form-group",
-            {
-              attrs: {
-                id: "input-group-2",
-                label: "Precio:",
-                "label-for": "input-2"
-              }
-            },
-            [
-              _c("b-form-input", {
-                attrs: {
-                  id: "input-2",
-                  required: "",
-                  placeholder: "Ej: $3.000"
-                },
-                model: {
-                  value: _vm.form.precio,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "precio", $$v)
-                  },
-                  expression: "form.precio"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "b-form-group",
-            {
-              attrs: {
-                id: "input-group-1",
-                label: "Imagen del producto:",
-                "label-for": "imagen",
-                description: "Las dimensiones recomendadas son ## x ##."
-              }
-            },
-            [
-              _c("b-form-file", {
-                attrs: {
-                  id: "imagen",
-                  placeholder: "Escoja una imagen o arrastrela aquí...",
-                  "drop-placeholder": "Suelte su imagen aquí..."
-                },
-                model: {
-                  value: _vm.form.imagen,
-                  callback: function($$v) {
-                    _vm.$set(_vm.form, "imagen", $$v)
-                  },
-                  expression: "form.imagen"
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "mt-3" }, [
-            _vm._v(
-              "Imagen seleccionada: " +
-                _vm._s(_vm.form.imagen ? _vm.form.imagen.name : "")
-            )
-          ])
-        ],
-        1
-      )
+      _c("b-modal", {
+        attrs: { id: "modal-producto", title: "Agregar Producto" },
+        on: { show: _vm.resetModal, hidden: _vm.resetModal, ok: _vm.onSubmit }
+      })
     ],
     1
   )

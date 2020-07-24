@@ -2,6 +2,103 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-12">
+        <b-row class="justify-content-center">
+          <b-form @submit="onSubmit" @reset="resetModal" v-if="show">
+            <b-form-group id="input-group-2" label="Nombre:" label-for="input-2">
+              <b-form-input
+                id="input-2"
+                v-model="form.nombre"
+                required
+                placeholder="Ej: Domi Burguer"
+                invalid-feedback="Nombre es obligatorio"
+                type="text"
+              ></b-form-input>
+            </b-form-group>
+
+            <b-form-group id="input-group-precio" label="Precio:" label-for="input-precio">
+              <b-form-input
+                id="input-precio"
+                v-model="form.precio"
+                required
+                placeholder="Ej: $3.000"
+                type="number"
+              ></b-form-input>
+            </b-form-group>
+
+            <b-form-group
+              id="input-group-precio-oferta"
+              label="Precio Oferta:"
+              label-for="input-precio-oferta"
+            >
+              <b-form-input
+                id="input-precio-oferta"
+                v-model="form.precio_oferta"
+                required
+                placeholder="Ej: $2.000"
+                type="number"
+              ></b-form-input>
+            </b-form-group>
+
+            <label>Inicio Oferta:</label>
+            <b-input-group class="mb-3" label-for="input-fecha-inicio-oferta">
+              <b-form-input
+                id="input-fecha-inicio-oferta"
+                v-model="form.fecha_inicio_oferta"
+                type="text"
+                placeholder="YYYY-MM-DD"
+                autocomplete="off"
+                readonly
+              ></b-form-input>
+              <b-input-group-append>
+                <b-form-datepicker
+                  v-model="form.fecha_inicio_oferta"
+                  button-only
+                  right
+                  locale="en-US"
+                  aria-controls="input-fecha-inicio-oferta"
+                ></b-form-datepicker>
+              </b-input-group-append>
+            </b-input-group>
+
+            <label>Fin Oferta:</label>
+            <b-input-group class="mb-3" label-for="input-fecha-fin-oferta">
+              <b-form-input
+                id="input-fecha-fin-oferta"
+                v-model="form.fecha_fin_oferta"
+                type="text"
+                placeholder="YYYY-MM-DD"
+                autocomplete="off"
+                readonly
+              ></b-form-input>
+              <b-input-group-append>
+                <b-form-datepicker
+                  v-model="form.fecha_fin_oferta"
+                  button-only
+                  right
+                  locale="en-US"
+                  aria-controls="input-fecha-fin-oferta"
+                ></b-form-datepicker>
+              </b-input-group-append>
+            </b-input-group>
+
+            <b-form-group
+              id="input-group-1"
+              label="Imagen del producto:"
+              label-for="imagen"
+              description="Las dimensiones recomendadas son ## x ##."
+            >
+              <b-form-file
+                id="imagen"
+                v-model="form.imagen"
+                placeholder="Escoja una imagen o arrastrela aquí..."
+                drop-placeholder="Suelte su imagen aquí..."
+              ></b-form-file>
+            </b-form-group>
+            <b-button type="reset" variant="outline-secondary">Reset</b-button>
+            <b-button type="submit" variant="secondary">Submit</b-button>
+          </b-form>
+        </b-row>
+        <hr />
         <b-row>
           <b-col lg="6" class="my-1">
             <b-form-group
@@ -27,7 +124,7 @@
           </b-col>
           <b-col lg="6">
             <b-button
-              v-b-modal.modal-1
+              v-b-modal.modal-producto
               size="sm"
               variant="outline-secondary"
               class="align-middle float-right"
@@ -78,36 +175,13 @@
         </b-row>
       </div>
     </div>
-    <b-modal id="modal-1" title="Agregar Producto">
-      <b-form-group id="input-group-2" label="Nombre:" label-for="input-2">
-        <b-form-input id="input-2" v-model="form.nombre" required placeholder="Ej: Domi Burguer"></b-form-input>
-      </b-form-group>
-
-      <b-form-group id="input-group-2" label="Precio:" label-for="input-2">
-        <b-form-input id="input-2" v-model="form.precio" required placeholder="Ej: $3.000"></b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="input-group-1"
-        label="Imagen del producto:"
-        label-for="imagen"
-        description="Las dimensiones recomendadas son ## x ##."
-      >
-        <b-form-file
-          id="imagen"
-          v-model="form.imagen"
-          placeholder="Escoja una imagen o arrastrela aquí..."
-          drop-placeholder="Suelte su imagen aquí..."
-        ></b-form-file>
-      </b-form-group>
-      <div class="mt-3">Imagen seleccionada: {{ form.imagen ? form.imagen.name : '' }}</div>
-
-      <template v-slot:modal-footer="{ ok, cancel }">
-        <!-- Emulate built in modal footer ok and cancel button actions -->
-        <b-button size="sm" variant="secondary" @click="ok()">Guardar</b-button>
-        <b-button size="sm" variant="outline-secondary" @click="cancel()">Cancelar</b-button>
-      </template>
-    </b-modal>
+    <b-modal
+      id="modal-producto"
+      title="Agregar Producto"
+      @show="resetModal"
+      @hidden="resetModal"
+      @ok="onSubmit"
+    ></b-modal>
   </div>
 </template>
 
@@ -138,8 +212,8 @@ export default {
       show: true,
       form: {
         nombre: "",
-        imagen: "",
-        precio: "",
+        imagen: null,
+        precio: null,
         precio_oferta: "",
         fecha_inicio_oferta: "",
         fecha_fin_oferta: "",
@@ -187,6 +261,40 @@ export default {
       if (items.length > 0) {
         this.ClienteSeleccionado = items[0].id;
       }
+    },
+    checkFormValidity() {
+      const valid = this.$refs.form.checkValidity();
+      return valid;
+    },
+    resetModal() {
+      this.form = {
+        nombre: "",
+        imagen: "",
+        precio: "",
+        precio_oferta: "",
+        fecha_inicio_oferta: "",
+        fecha_fin_oferta: "",
+      };
+    },
+    handleOk(bvModalEvt) {
+      // Prevent modal from closing
+      bvModalEvt.preventDefault();
+      // Trigger submit handler
+      this.handleSubmit();
+    },
+    onSubmit(evt) {
+      evt.preventDefault();
+      console.log(JSON.stringify(this.form));
+    },
+    handleSubmit() {
+      // Exit when the form isn't valid
+      if (!this.checkFormValidity()) {
+        return;
+      }
+      // Hide the modal manually
+      this.$nextTick(() => {
+        this.$bvModal.hide("modal-producto");
+      });
     },
   },
 };
