@@ -2262,28 +2262,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         fecha_fin_oferta: ""
       };
     },
-    handleOk: function handleOk(bvModalEvt) {
-      // Prevent modal from closing
-      bvModalEvt.preventDefault(); // Trigger submit handler
-
-      this.handleSubmit();
-    },
     onSubmit: function onSubmit(evt) {
       evt.preventDefault();
-      console.log(JSON.stringify(this.form));
-    },
-    handleSubmit: function handleSubmit() {
-      var _this2 = this;
-
-      // Exit when the form isn't valid
-      if (!this.checkFormValidity()) {
-        return;
-      } // Hide the modal manually
-
-
-      this.$nextTick(function () {
-        _this2.$bvModal.hide("modal-producto");
-      });
+      var formData = new FormData();
+      formData.append("nombre", this.form.nombre);
+      formData.append("imagen", this.form.imagen);
+      formData.append("precio", this.form.precio);
+      formData.append("precio_oferta", this.form.precio_oferta);
+      formData.append("fecha_inicio_oferta", this.form.fecha_inicio_oferta);
+      formData.append("fecha_fin_oferta", this.form.fecha_fin_oferta);
+      this.config.headers["content-type"] = "multipart/form-data";
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/producto", formData, this.config).then(function (response) {
+        if (response.data.error) {
+          console.log(response);
+        } else {
+          console.log(response.data.success);
+        }
+      })["catch"](function (response) {
+        console.log(response);
+      })["finally"](function () {});
     }
   }
 });

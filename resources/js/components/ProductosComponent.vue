@@ -276,25 +276,30 @@ export default {
         fecha_fin_oferta: "",
       };
     },
-    handleOk(bvModalEvt) {
-      // Prevent modal from closing
-      bvModalEvt.preventDefault();
-      // Trigger submit handler
-      this.handleSubmit();
-    },
     onSubmit(evt) {
       evt.preventDefault();
-      console.log(JSON.stringify(this.form));
-    },
-    handleSubmit() {
-      // Exit when the form isn't valid
-      if (!this.checkFormValidity()) {
-        return;
-      }
-      // Hide the modal manually
-      this.$nextTick(() => {
-        this.$bvModal.hide("modal-producto");
-      });
+      let formData = new FormData();
+      formData.append("nombre", this.form.nombre);
+      formData.append("imagen", this.form.imagen);
+      formData.append("precio", this.form.precio);
+      formData.append("precio_oferta", this.form.precio_oferta);
+      formData.append("fecha_inicio_oferta", this.form.fecha_inicio_oferta);
+      formData.append("fecha_fin_oferta", this.form.fecha_fin_oferta);
+
+      this.config.headers["content-type"] = "multipart/form-data";
+      axios
+        .post("/producto", formData, this.config)
+        .then(function (response) {
+          if (response.data.error) {
+              console.log(response);
+          } else {
+            console.log(response.data.success);
+          }
+        })
+        .catch(function (response) {
+          console.log(response);
+        })
+        .finally(() => {});
     },
   },
 };
