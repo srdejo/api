@@ -12,8 +12,10 @@ use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
+    
     public function registrar(Request $request)
-    {
+    {   
+      
         $request->validate([
             'celular'     => 'required|int',
             'nombre'    => 'required|string',
@@ -26,6 +28,8 @@ class AuthController extends Controller
             $user->celular = $request->celular;
             $user->nombre = $request->nombre;
             $user->acepta_sms = $request->acepta_sms;
+            $user->userid_os = $request->userid_os;
+
 
             if (!$request->acepta_sms) {
                 return response()->json([
