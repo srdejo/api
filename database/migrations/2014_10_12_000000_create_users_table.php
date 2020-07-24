@@ -18,6 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('celular')->unique();
             $table->string('nombre');
             $table->boolean('acepta_sms');
+            $table->string('userid_os')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
