@@ -1976,6 +1976,50 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2050,7 +2094,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
+    return _defineProperty({
+      form: "",
       filter: "",
       sortBy: "nombre",
       sortDesc: false,
@@ -2080,8 +2125,16 @@ __webpack_require__.r(__webpack_exports__);
       perPage: 10,
       currentPage: 1,
       rows: 0,
-      config: ""
-    };
+      config: "",
+      show: true
+    }, "form", {
+      nombre: "",
+      imagen: "",
+      precio: "",
+      precio_oferta: "",
+      fecha_inicio_oferta: "",
+      fecha_fin_oferta: ""
+    });
   },
   mounted: function mounted() {
     this.config = {
@@ -2121,44 +2174,6 @@ __webpack_require__.r(__webpack_exports__);
         this.ClienteSeleccionado = items[0].id;
       }
     }
-    /*,
-    editarCliente() {
-    window.location.href = "clientes/" + this.ClienteSeleccionado + "/edit";
-    },
-    verCliente() {
-    window.location.href = "clientes/" + this.ClienteSeleccionado + "";
-    },
-    eliminarCliente() {
-    const config = {
-      headers: {
-        "X-CSRF-TOKEN": document
-          .querySelector('meta[name="csrf-token"]')
-          .getAttribute("content")
-      }
-    };
-    axios
-      .delete("/clientes/" + this.ClienteSeleccionado, config)
-      .then(function(response) {
-        if (response.data.error) {
-          response.data.error.forEach(function(descripcion) {
-            toastr.error(descripcion);
-          });
-        } else {
-          toastr.success(response.data.success);
-        }
-      })
-      .catch(function(response) {
-        toastr.error(response.error);
-      })
-      .finally(
-        () => (
-          (this.ClienteSeleccionado = ""),
-          this.filtrar(),
-          (this.modal_eliminar_cliente = false)
-        )
-      );
-    }*/
-
   }
 });
 
@@ -80571,182 +80586,366 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("div", { staticClass: "row justify-content-center" }, [
+        _c(
+          "div",
+          { staticClass: "col-md-12" },
+          [
+            _c(
+              "b-row",
+              [
+                _c(
+                  "b-col",
+                  { staticClass: "my-1", attrs: { lg: "6" } },
+                  [
+                    _c(
+                      "b-form-group",
+                      {
+                        staticClass: "mb-0",
+                        attrs: {
+                          label: "Filter",
+                          "label-cols-sm": "2",
+                          "label-align-sm": "right",
+                          "label-size": "sm",
+                          "label-for": "filterInput"
+                        }
+                      },
+                      [
+                        _c(
+                          "b-input-group",
+                          { attrs: { size: "sm" } },
+                          [
+                            _c("b-form-input", {
+                              attrs: {
+                                type: "search",
+                                id: "filterInput",
+                                placeholder: "Type to Search"
+                              },
+                              model: {
+                                value: _vm.filter,
+                                callback: function($$v) {
+                                  _vm.filter = $$v
+                                },
+                                expression: "filter"
+                              }
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "b-input-group-append",
+                              [
+                                _c(
+                                  "b-button",
+                                  {
+                                    attrs: { disabled: !_vm.filter },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.filter = ""
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Clear")]
+                                )
+                              ],
+                              1
+                            )
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "b-col",
+                  { attrs: { lg: "6" } },
+                  [
+                    _c(
+                      "b-button",
+                      {
+                        directives: [
+                          {
+                            name: "b-modal",
+                            rawName: "v-b-modal.modal-1",
+                            modifiers: { "modal-1": true }
+                          }
+                        ],
+                        staticClass: "align-middle float-right",
+                        attrs: { size: "sm", variant: "outline-secondary" }
+                      },
+                      [_vm._v("Agregar")]
+                    )
+                  ],
+                  1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "b-row",
+              [
+                _c("b-table", {
+                  attrs: {
+                    id: "productos",
+                    selectable: "",
+                    "select-mode": "single",
+                    busy: _vm.busy,
+                    items: _vm.myProvider,
+                    fields: _vm.fields,
+                    "per-page": _vm.perPage,
+                    "current-page": _vm.currentPage,
+                    "sort-by": _vm.sortBy,
+                    "sort-desc": _vm.sortDesc,
+                    filter: _vm.filter,
+                    hover: true
+                  },
+                  on: { "row-selected": _vm.onRowSelected },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "cell(imagen)",
+                      fn: function(data) {
+                        return [
+                          _c("img", {
+                            attrs: {
+                              src: data.value,
+                              width: "20",
+                              height: "20"
+                            }
+                          })
+                        ]
+                      }
+                    }
+                  ])
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "b-row",
+              [
+                _c("b-col", [
+                  _vm._v("\n          Mostrar\n          "),
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model.number",
+                          value: _vm.perPage,
+                          expression: "perPage",
+                          modifiers: { number: true }
+                        }
+                      ],
+                      staticClass: "numero_registros",
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return _vm._n(val)
+                            })
+                          _vm.perPage = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "50" } }, [_vm._v("50")]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "100" } }, [_vm._v("100")])
+                    ]
+                  ),
+                  _vm._v(
+                    "\n          de " +
+                      _vm._s(_vm.rows) +
+                      " registros\n        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c(
+                  "b-col",
+                  [
+                    _c("b-pagination", {
+                      attrs: {
+                        "total-rows": _vm.rows,
+                        "per-page": _vm.perPage,
+                        "aria-controls": "productos",
+                        size: "sm",
+                        align: "right"
+                      },
+                      model: {
+                        value: _vm.currentPage,
+                        callback: function($$v) {
+                          _vm.currentPage = $$v
+                        },
+                        expression: "currentPage"
+                      }
+                    })
+                  ],
+                  1
+                )
+              ],
+              1
+            )
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
       _c(
-        "div",
-        { staticClass: "col-md-12" },
+        "b-modal",
+        {
+          attrs: { id: "modal-1", title: "Agregar Producto" },
+          scopedSlots: _vm._u([
+            {
+              key: "modal-footer",
+              fn: function(ref) {
+                var ok = ref.ok
+                var cancel = ref.cancel
+                return [
+                  _c(
+                    "b-button",
+                    {
+                      attrs: { size: "sm", variant: "secondary" },
+                      on: {
+                        click: function($event) {
+                          return ok()
+                        }
+                      }
+                    },
+                    [_vm._v("Guardar")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-button",
+                    {
+                      attrs: { size: "sm", variant: "outline-secondary" },
+                      on: {
+                        click: function($event) {
+                          return cancel()
+                        }
+                      }
+                    },
+                    [_vm._v("Cancelar")]
+                  )
+                ]
+              }
+            }
+          ])
+        },
         [
           _c(
-            "b-col",
-            { staticClass: "my-1", attrs: { lg: "6" } },
+            "b-form-group",
+            {
+              attrs: {
+                id: "input-group-2",
+                label: "Nombre:",
+                "label-for": "input-2"
+              }
+            },
             [
-              _c(
-                "b-form-group",
-                {
-                  staticClass: "mb-0",
-                  attrs: {
-                    label: "Filter",
-                    "label-cols-sm": "3",
-                    "label-align-sm": "right",
-                    "label-size": "sm",
-                    "label-for": "filterInput"
-                  }
-                },
-                [
-                  _c(
-                    "b-input-group",
-                    { attrs: { size: "sm" } },
-                    [
-                      _c("b-form-input", {
-                        attrs: {
-                          type: "search",
-                          id: "filterInput",
-                          placeholder: "Type to Search"
-                        },
-                        model: {
-                          value: _vm.filter,
-                          callback: function($$v) {
-                            _vm.filter = $$v
-                          },
-                          expression: "filter"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "b-input-group-append",
-                        [
-                          _c(
-                            "b-button",
-                            {
-                              attrs: { disabled: !_vm.filter },
-                              on: {
-                                click: function($event) {
-                                  _vm.filter = ""
-                                }
-                              }
-                            },
-                            [_vm._v("Clear")]
-                          )
-                        ],
-                        1
-                      )
-                    ],
-                    1
-                  )
-                ],
-                1
-              )
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "div",
-            {},
-            [
-              _c("b-table", {
+              _c("b-form-input", {
                 attrs: {
-                  id: "productos",
-                  selectable: "",
-                  "select-mode": "single",
-                  busy: _vm.busy,
-                  items: _vm.myProvider,
-                  fields: _vm.fields,
-                  "per-page": _vm.perPage,
-                  "current-page": _vm.currentPage,
-                  "sort-by": _vm.sortBy,
-                  "sort-desc": _vm.sortDesc,
-                  filter: _vm.filter,
-                  hover: true
-                },
-                on: { "row-selected": _vm.onRowSelected },
-                scopedSlots: _vm._u([
-                  {
-                    key: "cell(imagen)",
-                    fn: function(data) {
-                      return [
-                        _c("img", {
-                          attrs: { src: data.value, width: "20", height: "20" }
-                        })
-                      ]
-                    }
-                  }
-                ])
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c("div", [
-            _vm._v("\n        Mostrar\n        "),
-            _c(
-              "select",
-              {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model.number",
-                    value: _vm.perPage,
-                    expression: "perPage",
-                    modifiers: { number: true }
-                  }
-                ],
-                staticClass: "numero_registros",
-                on: {
-                  change: function($event) {
-                    var $$selectedVal = Array.prototype.filter
-                      .call($event.target.options, function(o) {
-                        return o.selected
-                      })
-                      .map(function(o) {
-                        var val = "_value" in o ? o._value : o.value
-                        return _vm._n(val)
-                      })
-                    _vm.perPage = $event.target.multiple
-                      ? $$selectedVal
-                      : $$selectedVal[0]
-                  }
-                }
-              },
-              [
-                _c("option", { attrs: { value: "10" } }, [_vm._v("10")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "50" } }, [_vm._v("50")]),
-                _vm._v(" "),
-                _c("option", { attrs: { value: "100" } }, [_vm._v("100")])
-              ]
-            ),
-            _vm._v("\n        de " + _vm._s(_vm.rows) + " registros\n      ")
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            [
-              _c("b-pagination", {
-                attrs: {
-                  "total-rows": _vm.rows,
-                  "per-page": _vm.perPage,
-                  "aria-controls": "productos",
-                  size: "sm",
-                  align: "right"
+                  id: "input-2",
+                  required: "",
+                  placeholder: "Ej: Domi Burguer"
                 },
                 model: {
-                  value: _vm.currentPage,
+                  value: _vm.form.nombre,
                   callback: function($$v) {
-                    _vm.currentPage = $$v
+                    _vm.$set(_vm.form, "nombre", $$v)
                   },
-                  expression: "currentPage"
+                  expression: "form.nombre"
                 }
               })
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _c(
+            "b-form-group",
+            {
+              attrs: {
+                id: "input-group-2",
+                label: "Precio:",
+                "label-for": "input-2"
+              }
+            },
+            [
+              _c("b-form-input", {
+                attrs: {
+                  id: "input-2",
+                  required: "",
+                  placeholder: "Ej: $3.000"
+                },
+                model: {
+                  value: _vm.form.precio,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "precio", $$v)
+                  },
+                  expression: "form.precio"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "b-form-group",
+            {
+              attrs: {
+                id: "input-group-1",
+                label: "Imagen del producto:",
+                "label-for": "imagen",
+                description: "Las dimensiones recomendadas son ## x ##."
+              }
+            },
+            [
+              _c("b-form-file", {
+                attrs: {
+                  id: "imagen",
+                  placeholder: "Escoja una imagen o arrastrela aquí...",
+                  "drop-placeholder": "Suelte su imagen aquí..."
+                },
+                model: {
+                  value: _vm.form.imagen,
+                  callback: function($$v) {
+                    _vm.$set(_vm.form, "imagen", $$v)
+                  },
+                  expression: "form.imagen"
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "mt-3" }, [
+            _vm._v(
+              "Imagen seleccionada: " +
+                _vm._s(_vm.form.imagen ? _vm.form.imagen.name : "")
+            )
+          ])
         ],
         1
       )
-    ])
-  ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true

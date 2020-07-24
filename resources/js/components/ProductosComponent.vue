@@ -2,32 +2,39 @@
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-12">
-        <b-col lg="6" class="my-1">
-          <b-form-group
-            label="Filter"
-            label-cols-sm="3"
-            label-align-sm="right"
-            label-size="sm"
-            label-for="filterInput"
-            class="mb-0"
-          >
-            <b-input-group size="sm">
-              <b-form-input
-                v-model="filter"
-                type="search"
-                id="filterInput"
-                placeholder="Type to Search"
-              ></b-form-input>
-              <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
-              </b-input-group-append>
-            </b-input-group>
-          </b-form-group>
-        </b-col>
-        <b-col lg="6" class="my-1">
-          <b-button v-b-modal.modal-1>Launch demo modal</b-button>
-        </b-col>
-        <div class>
+        <b-row>
+          <b-col lg="6" class="my-1">
+            <b-form-group
+              label="Filter"
+              label-cols-sm="2"
+              label-align-sm="right"
+              label-size="sm"
+              label-for="filterInput"
+              class="mb-0"
+            >
+              <b-input-group size="sm">
+                <b-form-input
+                  v-model="filter"
+                  type="search"
+                  id="filterInput"
+                  placeholder="Type to Search"
+                ></b-form-input>
+                <b-input-group-append>
+                  <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                </b-input-group-append>
+              </b-input-group>
+            </b-form-group>
+          </b-col>
+          <b-col lg="6">
+            <b-button
+              v-b-modal.modal-1
+              size="sm"
+              variant="outline-secondary"
+              class="align-middle float-right"
+            >Agregar</b-button>
+          </b-col>
+        </b-row>
+        <b-row>
           <b-table
             id="productos"
             selectable
@@ -47,30 +54,59 @@
               <img :src="data.value" width="20" height="20" />
             </template>
           </b-table>
-        </div>
-        <div>
-          Mostrar
-          <select v-model.number="perPage" class="numero_registros">
-            <option value="10">10</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-          de {{rows}} registros
-        </div>
-        <div>
-          <b-pagination
-            v-model="currentPage"
-            :total-rows="rows"
-            :per-page="perPage"
-            aria-controls="productos"
-            size="sm"
-            align="right"
-          ></b-pagination>
-        </div>
+        </b-row>
+        <b-row>
+          <b-col>
+            Mostrar
+            <select v-model.number="perPage" class="numero_registros">
+              <option value="10">10</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+            de {{rows}} registros
+          </b-col>
+          <b-col>
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="rows"
+              :per-page="perPage"
+              aria-controls="productos"
+              size="sm"
+              align="right"
+            ></b-pagination>
+          </b-col>
+        </b-row>
       </div>
     </div>
-    <b-modal id="modal-1" title="BootstrapVue">
-      <p class="my-4">Hello from modal!</p>
+    <b-modal id="modal-1" title="Agregar Producto">
+      <b-form-group id="input-group-2" label="Nombre:" label-for="input-2">
+        <b-form-input id="input-2" v-model="form.nombre" required placeholder="Ej: Domi Burguer"></b-form-input>
+      </b-form-group>
+
+      <b-form-group id="input-group-2" label="Precio:" label-for="input-2">
+        <b-form-input id="input-2" v-model="form.precio" required placeholder="Ej: $3.000"></b-form-input>
+      </b-form-group>
+
+      <b-form-group
+        id="input-group-1"
+        label="Imagen del producto:"
+        label-for="imagen"
+        description="Las dimensiones recomendadas son ## x ##."
+      >
+        <b-form-file
+          id="imagen"
+          v-model="form.imagen"
+          placeholder="Escoja una imagen o arrastrela aquí..."
+          drop-placeholder="Suelte su imagen aquí..."
+        ></b-form-file>
+      </b-form-group>
+      <div class="mt-3">Imagen seleccionada: {{ form.imagen ? form.imagen.name : '' }}</div>
+
+      <template v-slot:modal-footer="{ ok, cancel }">
+        <!-- Emulate built in modal footer ok and cancel button actions -->
+        <b-button size="sm" variant="secondary" @click="ok()">Guardar</b-button>
+        <b-button size="sm" variant="outline-secondary" @click="cancel()">Cancelar</b-button>
+      </template>
     </b-modal>
   </div>
 </template>
@@ -80,6 +116,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      form: "",
       filter: "",
       sortBy: "nombre",
       sortDesc: false,
@@ -97,6 +134,16 @@ export default {
       rows: 0,
 
       config: "",
+
+      show: true,
+      form: {
+        nombre: "",
+        imagen: "",
+        precio: "",
+        precio_oferta: "",
+        fecha_inicio_oferta: "",
+        fecha_fin_oferta: "",
+      },
     };
   },
   mounted() {
@@ -140,43 +187,7 @@ export default {
       if (items.length > 0) {
         this.ClienteSeleccionado = items[0].id;
       }
-    } /*,
-    editarCliente() {
-      window.location.href = "clientes/" + this.ClienteSeleccionado + "/edit";
     },
-    verCliente() {
-      window.location.href = "clientes/" + this.ClienteSeleccionado + "";
-    },
-    eliminarCliente() {
-      const config = {
-        headers: {
-          "X-CSRF-TOKEN": document
-            .querySelector('meta[name="csrf-token"]')
-            .getAttribute("content")
-        }
-      };
-      axios
-        .delete("/clientes/" + this.ClienteSeleccionado, config)
-        .then(function(response) {
-          if (response.data.error) {
-            response.data.error.forEach(function(descripcion) {
-              toastr.error(descripcion);
-            });
-          } else {
-            toastr.success(response.data.success);
-          }
-        })
-        .catch(function(response) {
-          toastr.error(response.error);
-        })
-        .finally(
-          () => (
-            (this.ClienteSeleccionado = ""),
-            this.filtrar(),
-            (this.modal_eliminar_cliente = false)
-          )
-        );
-    }*/,
   },
 };
 </script>
