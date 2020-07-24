@@ -80,4 +80,35 @@ class ProductoController extends Controller
         $productos = Producto::where('negocio_id', $negocio_id_user)->orderBy($sortBy, $OrderDesc)->paginate($perPage);
         return new ProductoCollection($productos);
     }
+
+    public function store(Request $request){
+        $validatedData = $request->validate([
+            'nombre' => 'required',
+            'imagen' => 'required',
+            'precio' => 'required',
+        ]);
+
+        try {
+            $user = Auth::user();
+    
+            $filename =  $request->imagen->getClientOriginalName();
+            $ubicacion = $request->imagen->StoreAs('producto/cliente_'.$user->id, $filename);
+    
+            $producto = New Producto();
+            $producto->nombre = $request->nombre;
+            $producto->imagen = $ubicacion;
+            $producto->precio = $request->precio;
+            $producto->precio_oferta = $request->precio_oferta;
+            $producto->fecha_inicio_oferta = $request->fecha_inicio_oferta;
+            $producto->fecha_fin_oferta = $request->fecha_fin_oferta;
+            $producto->categoria_id = '1';
+            $producto->negocio_id = $user->negocio_id;
+
+            $producto->save();
+            return response()->json(['success' => 'Almacenado']);
+        } catch (\Throwable $th) {
+            Log::error($th);
+            return response()->json(['error' => '']);
+        }
+    }
 }

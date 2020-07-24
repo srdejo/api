@@ -16,6 +16,7 @@ Route::post('/register', 'Auth\RegisterController@createAdmin');
 
 Route::get('/negocio', 'NegocioController@index')->name('negocio');
 Route::get('/producto', 'ProductoController@index')->name('producto');
+Route::post('/producto', 'ProductoController@store')->name('guardar_producto');
 
 Route::get('/productos', 'ProductoController@json');
     
