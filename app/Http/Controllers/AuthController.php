@@ -107,4 +107,23 @@ class AuthController extends Controller
     {
         return response()->json(User::paginate(15));
     }
+
+
+    public function validarNumero(Request $request){
+        $request->validate([
+            'celular' => 'required|int',
+        ]);
+
+        $user = User::where('celular', $request->celular)->first();
+        if (isset($user)) {
+            return response()->json([
+                'registrado' => true
+            ], 200);
+        }else {
+            return response()->json([
+                'registrado' => false
+            ], 200);  
+        }
+
+    }
 }
