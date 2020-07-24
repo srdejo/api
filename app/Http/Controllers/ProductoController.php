@@ -101,7 +101,7 @@ class ProductoController extends Controller
             $producto->precio_oferta = $request->precio_oferta;
             $producto->fecha_inicio_oferta = $request->fecha_inicio_oferta;
             $producto->fecha_fin_oferta = $request->fecha_fin_oferta;
-            $producto->categoria_id = '1';
+            $producto->categoria_id = '2';
             $producto->negocio_id = $user->negocio_id;
 
             $producto->save();
