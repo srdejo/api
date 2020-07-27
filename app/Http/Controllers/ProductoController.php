@@ -92,12 +92,11 @@ class ProductoController extends Controller
         try {
             $user = Auth::user();
     
-            $filename =  $request->imagen->getClientOriginalName();
-            $ubicacion = $request->imagen->StoreAs('public/producto/cliente_'.$user->id, $filename);
+            $ubicacion = $request->imagen->store('producto/cliente_'.$user->id);
     
             $producto = New Producto();
             $producto->nombre = $request->nombre;
-            $producto->imagen = Storage::url($ubicacion);;
+            $producto->imagen = $ubicacion;
             $producto->precio = $request->precio;
             $producto->precio_oferta = $request->precio_oferta;
             $producto->fecha_inicio_oferta = $request->fecha_inicio_oferta;

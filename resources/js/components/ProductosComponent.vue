@@ -147,7 +147,7 @@
             :hover="true"
             @row-selected="onRowSelected"
           >
-            <template v-slot:cell(imagen)="data">
+            <template v-slot:cell(url_imagen)="data">
               <img :src="data.value" width="20" height="20" />
             </template>
           </b-table>
@@ -197,7 +197,7 @@ export default {
       busy: false,
       fields: [
         { key: "nombre", sortable: true },
-        { key: "imagen", sortable: false },
+        { key: "url_imagen", label: 'Imagen', sortable: false },
         { key: "precio", sortable: true },
         { key: "precio_oferta", label: "Oferta", sortable: false },
         { key: "fecha_inicio_oferta", label: "Inicio", sortable: true },
@@ -252,6 +252,7 @@ export default {
         this.rows = res.data.meta.total;
         const items = res.data.data;
         this.busy = false;
+        console.log(items)
         // Must return an array of items or an empty array if an error occurred
         return items || [];
       });
