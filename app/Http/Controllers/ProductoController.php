@@ -8,6 +8,7 @@ use App\Producto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ProductoController extends Controller
 {
@@ -92,11 +93,11 @@ class ProductoController extends Controller
             $user = Auth::user();
     
             $filename =  $request->imagen->getClientOriginalName();
-            $ubicacion = $request->imagen->StoreAs('producto/cliente_'.$user->id, $filename);
+            $ubicacion = $request->imagen->StoreAs('public/producto/cliente_'.$user->id, $filename);
     
             $producto = New Producto();
             $producto->nombre = $request->nombre;
-            $producto->imagen = $ubicacion;
+            $producto->imagen = Storage::url($ubicacion);;
             $producto->precio = $request->precio;
             $producto->precio_oferta = $request->precio_oferta;
             $producto->fecha_inicio_oferta = $request->fecha_inicio_oferta;
