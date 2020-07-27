@@ -92,7 +92,7 @@ class ProductoController extends Controller
         try {
             $user = Auth::user();
     
-            $ubicacion = $request->imagen->store('producto/cliente_'.$user->id);
+            $ubicacion = $request->imagen->store('public/producto/cliente_'.$user->id);
     
             $producto = New Producto();
             $producto->nombre = $request->nombre;
