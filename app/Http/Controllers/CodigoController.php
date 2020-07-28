@@ -77,7 +77,6 @@ class CodigoController extends Controller
             Log::info('userid_os=>'.$request->userid_os);
             $user_search->userid_os = $request->userid_os;
             $user_search->save();
-            Log::info($request->all);
             $codigo = $this->GenerarCodigo($request->celular);
             if ($codigo != 0) {
                 DB::commit();
