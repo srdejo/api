@@ -71,10 +71,6 @@ class AuthController extends Controller
                 'message' => 'Unauthorized'
             ], 401);
         }
-        Log::info('userid_os=>'.$request->userid_os);
-        $user_search->userid_os = $request->userid_os;
-        $user_search->save();
-        Log::info($request->all());
         
         Auth::login($user_search);
         $user = $request->user();
