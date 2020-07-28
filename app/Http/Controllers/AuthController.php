@@ -71,6 +71,7 @@ class AuthController extends Controller
                 'message' => 'Unauthorized'
             ], 401);
         }
+        
         Auth::login($user_search);
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');

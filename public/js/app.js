@@ -2178,7 +2178,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         key: "nombre",
         sortable: true
       }, {
-        key: "imagen",
+        key: "url_imagen",
+        label: 'Imagen',
         sortable: false
       }, {
         key: "precio",
@@ -2236,7 +2237,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         // Pluck the array of items off our axios response
         _this.rows = res.data.meta.total;
         var items = res.data.data;
-        _this.busy = false; // Must return an array of items or an empty array if an error occurred
+        _this.busy = false;
+        console.log(items); // Must return an array of items or an empty array if an error occurred
 
         return items || [];
       });
@@ -81081,7 +81083,7 @@ var render = function() {
                   on: { "row-selected": _vm.onRowSelected },
                   scopedSlots: _vm._u([
                     {
-                      key: "cell(imagen)",
+                      key: "cell(url_imagen)",
                       fn: function(data) {
                         return [
                           _c("img", {
