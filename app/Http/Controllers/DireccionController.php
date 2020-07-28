@@ -17,7 +17,6 @@ class DireccionController extends Controller
             'nomenclatura'     => 'required|string',
             'numero'    => 'required|string',
             'placa' => 'required|string',
-            'geolocation' => 'required|boolean',
         ]);
         try {
             DB::beginTransaction();
