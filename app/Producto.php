@@ -15,6 +15,6 @@ class Producto extends Model
 
     public function getUrlImagenAttribute()
     {
-        return Storage::url($this->imagen)->full();
+        return 'https://api.anw.cloud'.Storage::url($this->imagen);
     }
 }
