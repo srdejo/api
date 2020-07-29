@@ -21,7 +21,7 @@ class ProductoController extends Controller
     public function getAll()
     {
         return response()->json([
-            'data' => Producto::with('negocio.nombre')->get()
+            'data' => Producto::with('negocio')->get()
         ], 200);
     }
 
