@@ -17,4 +17,9 @@ class Producto extends Model
     {
         return 'https://api.anw.cloud'.Storage::url($this->imagen);
     }
+
+    public function negocio()
+    {
+        return $this->belongsTo('App\Negocio');
+    }
 }
