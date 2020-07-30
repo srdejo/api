@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Clases\PushNotification;
 use App\DetallePedido;
 use App\Http\Requests\StorePedidoPost;
 use App\Pedido;
@@ -33,6 +34,8 @@ class PedidoController extends Controller
                 $detalle = $pedido_nuevo->detalles()->create(['producto_id' => $pedido['producto_id'], 'cantidad' => $pedido['cantidad']]);
                 //$pedidos_registrados = $array = Arr::add($pedido_nuevo);
             }
+            Log::info($user->userid_os);
+            PushNotification::enviar($user->userid_os,'Pedido registrado','Pedido');
 
             DB::commit();
             return response()->json([
