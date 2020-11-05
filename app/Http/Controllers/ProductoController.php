@@ -15,7 +15,12 @@ class ProductoController extends Controller
     
     public function __construct()
     {
+<<<<<<< HEAD
+        $this->middleware('auth:admin');
+        $this->middleware('auth:auth');
+=======
         $this->middleware('auth:admin')->except('getAll' , 'getByCategory', 'getOferta');
+>>>>>>> a0ed4669a5cb4ffb5df7ac890740bb5cb9e9f9cb
     }
 
     public function getAll()

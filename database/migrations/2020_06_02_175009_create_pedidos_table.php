@@ -15,7 +15,11 @@ class CreatePedidosTable extends Migration
     {
         Schema::create('pedidos', function (Blueprint $table) {
             $table->id();
-            
+
+            $table->double('valor_total', 8, 2);
+            $table->double('valor_domicilio', 8, 2);
+            $table->string('estado');
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             
